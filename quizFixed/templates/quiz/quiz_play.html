@@ -1,0 +1,108 @@
+{% extends 'quiz/base.html' %}
+
+{% block titleBlock %}
+<title>Play Quiz</title>
+{% endblock %}
+
+{% block bodyBlock %}
+
+<div class="jumbotron">
+
+  {% if quiz_status == 'NS' %}
+
+    <h2>Quiz {{ quiz_id }}</h2>
+    <h3>This quiz has not started yet, if you are expecting otherwise,
+      please trying refreshing the page periodically</h3>
+    <br>
+    <button onClick="window.location.reload();" class="reset">Refresh Page</button>
+
+  {% elif quiz_status == 'WA' %}
+
+    <h2>Quiz {{ quiz_id }} - Round {{ round_number }}</h2>
+
+    {% if submitted %}
+
+      <h3>Thank you for your answers, please wait while other submit theirs</h3>
+      <br>
+      <button onClick="window.location.reload();" class="reset">Refresh Page</button>
+
+    {% else %}
+
+      <h3>Please enter your answers below:</h3>
+
+      <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <ol>
+          <li>{{ q_and_a.round.question1 }}</li>
+          {{ q_and_a.answers.answer1 }}
+          <li>{{ q_and_a.round.question2 }}</li>
+          {{ q_and_a.answers.answer2 }}
+          <li>{{ q_and_a.round.question3 }}</li>
+          {{ q_and_a.answers.answer3 }}
+          <li>{{ q_and_a.round.question4 }}</li>
+          {{ q_and_a.answers.answer4 }}
+          <li>{{ q_and_a.round.question5 }}</li>
+          {{ q_and_a.answers.answer5 }}
+          <li>{{ q_and_a.round.question6 }}</li>
+          {{ q_and_a.answers.answer6 }}
+          <li>{{ q_and_a.round.question7 }}</li>
+          {{ q_and_a.answers.answer7 }}
+          <li>{{ q_and_a.round.question8 }}</li>
+          {{ q_and_a.answers.answer8 }}
+          <li>{{ q_and_a.round.question9 }}</li>
+          {{ q_and_a.answers.answer9 }}
+          <li>{{ q_and_a.round.question10 }}</li>
+          {{ q_and_a.answers.answer10 }}
+        </ol>
+        <input type="submit" name="" value="Submit Answers">
+      </form>
+
+    {% endif %}
+
+  {% elif quiz_status == 'SA' %}
+
+    <h2>Quiz {{ quiz_id }} - Round {{ round_number }}</h2>
+    <br>
+    {% for q in q_and_a %}
+      <h4>Question: {{ q.question }}</h4>
+      <h4>Correct Answer(s): {{ q.answer }}</h4>
+      <table class="table">
+        <tr>
+          <th>Player</th>
+          {% for player in q.users %}
+            <td>{{ player }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          <th>Correct</th>
+          {% for correct in q.correct %}
+            {% if correct %}
+              <td style='color:green; font-weight:bold;'>&#10004;</td>
+            {% else %}
+              <td style='color:red; font-weight:bold;'>X</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </table>
+    {% endfor %}
+
+    <h2>Current Scores</h2>
+
+    <table class="table">
+      <tr>
+        <th>Rank</th><th>Player</th><th>Score</th>
+      </tr>
+      {% for score in scores %}
+      <tr>
+        <td>{{ score.placing }}</td><td>{{ score.user }}</td><td>{{ score.score }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <button onClick="window.location.reload();" class="reset">Refresh Page</button>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

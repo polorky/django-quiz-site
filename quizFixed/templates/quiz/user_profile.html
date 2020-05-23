@@ -1,0 +1,21 @@
+{% extends 'quiz/base.html' %}
+{% load static %}
+
+{% block bodyBlock %}
+
+<div class="jumbotron">
+    {% if changed %}
+      <h3>Your profile has been updated!</h3>
+    {% else %}
+      <h2>Your Profile</h2>
+      <h3>You can make any changes below:</h3>
+      <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <br>
+        <input type="submit" name="" value="Submit Changes">
+      </form>
+    {% endif %}
+</div>
+
+{% endblock %}

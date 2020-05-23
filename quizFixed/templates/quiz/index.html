@@ -1,0 +1,12 @@
+{% extends 'quiz/base.html' %}
+{% block titleBlock %}
+<title>Bark Quiz Home</title>
+{% endblock %}
+
+{% block bodyBlock %}
+
+<div class="jumbotron">
+  <h1>Welcome to the Bark Quiz Site!</h1>
+</div>
+<h2>Click <a href="{% url 'quiz_play' quiz_id=1 %}">here</a> to start a quiz</h2>
+{% endblock %}
