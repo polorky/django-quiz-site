@@ -3,3 +3,14 @@
   color: white;
   border-radius: 8px;
 }
+
+.sitetitle {
+  background-color: #ed3b18;
+  text-align: center;
+  /* font-family: Copperplate, Copperplate Gothic Light, fantasy; */
+  color: white;
+  height: 80px;
+  font-size: 40px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+}

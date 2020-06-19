@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+{% load static %}
+
+{% block titleBlock %}
+<title>Quiz Admin</title>
+{% endblock %}
+
+{% block bodyBlock %}
+
+{% if submitted %}
+
+  <a href="{% url 'quiz_admin' quiz_id %}" class="btn btn-primary">Click here to edit another round</a>
+
+{% else %}
+
+  {% for round in rounds %}
+    <form enctype="multipart/form-data" method="post">
+      {% csrf_token %}
+      <p>{{ round.as_p }}
+      <input type="submit" name="" value="Submit Answers">
+      </p>
+    </form>
+  {% endfor %}
+
+{% endif %}
+
+{% endblock %}

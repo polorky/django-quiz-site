@@ -4,22 +4,26 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Quiz(models.Model):
 
-    class Status(models.TextChoices):
-        NOT_STARTED = 'NS', ('Not Started')
-        WAITING = 'WA', ('Waiting for Answers')
-        ANSWERS = 'SA', ('Showing Answers')
-
     quiz_id = models.IntegerField(unique=True,primary_key=True)
-    status = models.CharField(max_length=2, default=Status.NOT_STARTED, choices=Status.choices)
-    current_round = models.IntegerField(default=1)
+    started = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Quiz ' + str(self.quiz_id)
 
+    def get_rounds(self):
+        rounds = Round.objects.filter(quiz_id=self.quiz_id)
+        return rounds
+
 class Round(models.Model):
+
+    status_choices = [
+        ('WA', 'Waiting for Answers'),
+        ('SA', 'Showing Answers'),
+        ]
 
     quiz_id = models.ForeignKey('Quiz',on_delete=models.CASCADE)
     round_number = models.IntegerField()
+    round_status = models.CharField(max_length=2, default='WA', choices=status_choices)
     pic_round = models.BooleanField(default=False)
 
     question1 = models.CharField(max_length=256)
@@ -57,9 +61,21 @@ class Round(models.Model):
     def __str__(self):
         return str(self.round_number)
 
+    def list_questions(self):
+
+        return [self.question1, self.question2, self.question3, self.question4, self.question5,
+                self.question6, self.question7, self.question8, self.question9, self.question10]
+
+    def list_answers(self):
+
+        return [self.true_answer1, self.true_answer2, self.true_answer3,
+                self.true_answer4, self.true_answer5, self.true_answer6,
+                self.true_answer7, self.true_answer8, self.true_answer9,
+                self.true_answer10]
+
 class Answer(models.Model):
 
-    quiz_id = models.ForeignKey('quiz',on_delete=models.CASCADE)
+    quiz_number = models.IntegerField()
     round_number = models.IntegerField()
     username = models.CharField(max_length=50)
 
@@ -85,7 +101,7 @@ class Answer(models.Model):
     correct10 = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.username + ': ' + str(self.quiz_id) + ' Round ' + str(self.round_number)
+        return self.username + ': ' + str(self.quiz_number) + ' Round ' + str(self.round_number)
 
     def get_round_score(self):
 

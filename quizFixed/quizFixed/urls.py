@@ -14,17 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import url
 from quiz import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('admin/', admin.site.urls, name='admin'),
-    path('quiz_play/<int:quiz_id>/', views.quiz_play, name='quiz_play'),
-    path('quiz_admin/', views.quiz_admin, name='quiz_admin'),
-    path('quiz_create/', views.quiz_create, name='quiz_create'),
-    path('user_login/', views.user_login, name='user_login'),
-    path('logout/', views.user_logout, name='logout'),
-    path('profile/', views.user_profile, name='user_profile'),
-    path('register/', views.register, name='register'),
+    url(r'^$',views.index,name='index'),
+    url(r'^admin/', admin.site.urls, name='admin'),
+    #url('^quiz_play/<int:quiz_id>/', views.quiz_play, name='quiz_play'),
+    url(r'^quiz_play/([0-9]{2})/([0-9]{2})/([aqs]{2})/$', views.quiz_play, name='quiz_play'),
+    url(r'^quiz_admin/([0-9]{2})/$', views.quiz_admin, name='quiz_admin'),
+    url(r'^quiz_create/$', views.quiz_create, name='quiz_create'),
+    url(r'^user_login/$', views.user_login, name='user_login'),
+    url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^profile/$', views.user_profile, name='user_profile'),
+    url(r'^register/$', views.register, name='register'),
 ]

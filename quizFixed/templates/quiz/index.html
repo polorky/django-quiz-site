@@ -1,12 +1,24 @@
 {% extends 'quiz/base.html' %}
+{% load static %}
+
 {% block titleBlock %}
 <title>Bark Quiz Home</title>
 {% endblock %}
 
 {% block bodyBlock %}
 
-<div class="jumbotron">
-  <h1>Welcome to the Bark Quiz Site!</h1>
+<div class="sitetitle">
+  Welcome to the Bark Quiz Site!
 </div>
-<h2>Click <a href="{% url 'quiz_play' quiz_id=1 %}">here</a> to start a quiz</h2>
+<br>
+<div class="card text-white bg-warning mb-3" style="width: 33%;">
+  <img src="{% static 'quiz1.jpg' %}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h2 class="card-title">Quiz One</h2>
+    <p class="card-text">New quiz with the following rounds</p>
+    <a href="{% url 'quiz_play' '01' '01' 'qs' %}" class="btn btn-primary">Start Quiz</a>
+  </div>
+</div>
+
+<div><br><br></div>
 {% endblock %}
